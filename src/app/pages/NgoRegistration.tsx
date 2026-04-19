@@ -21,6 +21,7 @@ export function NgoRegistration() {
     phone: '',
     address: '',
     website: '',
+    image: '',
     fundingGoal: '',
     password: '',
   });
@@ -63,12 +64,10 @@ export function NgoRegistration() {
             <Heart className="w-8 h-8 text-black" />
             <span className="text-2xl font-bold text-gray-900">NGO Connect</span>
           </Link>
-          <Link to="/">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
         </div>
       </header>
 
@@ -159,6 +158,17 @@ export function NgoRegistration() {
                   onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                   placeholder="Street address, City, State, ZIP"
                   required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="image">Profile Image URL (Optional)</Label>
+                <Input
+                  id="image"
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => setFormData({ ...formData, image: e.target.value })}
+                  placeholder="https://example.com/logo.png"
                 />
               </div>
 

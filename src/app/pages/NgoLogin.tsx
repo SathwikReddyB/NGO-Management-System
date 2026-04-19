@@ -44,12 +44,10 @@ export function NgoLogin() {
             <Heart className="w-8 h-8 text-black" />
             <span className="text-2xl font-bold text-gray-900">NGO Connect</span>
           </Link>
-          <Link to="/">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
         </div>
       </header>
 

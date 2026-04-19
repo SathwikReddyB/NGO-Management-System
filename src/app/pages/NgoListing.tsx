@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { Button } from "../components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../components/ui/card";
 import { Badge } from "../components/ui/badge";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import React from "react";
 
 export function NgoListing() {
+  const navigate = useNavigate();
   const [ngos, setNgos] = useState<any[]>([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [isLoading, setIsLoading] = useState(true);
@@ -39,12 +40,10 @@ export function NgoListing() {
             <Heart className="w-8 h-8 text-black" />
             <span className="text-2xl font-bold text-gray-900">NGO Connect</span>
           </Link>
-          <Link to="/">
-            <Button variant="outline">
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
+          <Button variant="outline" onClick={() => navigate(-1)}>
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back
+          </Button>
         </div>
       </header>
 
@@ -86,6 +85,18 @@ export function NgoListing() {
 
             return (
               <Card key={ngo.id} className="hover:shadow-xl transition-shadow flex flex-col">
+                {ngo.image && (
+                  <div className="w-full h-48 overflow-hidden rounded-t-xl group">
+                    <img 
+                      src={ngo.image} 
+                      alt={ngo.name} 
+                      className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).style.display = 'none';
+                      }}
+                    />
+                  </div>
+                )}
                 <CardHeader>
                   <div className="flex items-start justify-between mb-2">
                     <Badge variant="secondary">{ngo.category}</Badge>

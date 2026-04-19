@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 const API_BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:5002/api';
 
 export const api = {
@@ -48,6 +49,15 @@ export const api = {
   getNgoById: async (id: string) => {
     const res = await fetch(`${API_BASE}/ngos/${id}`);
     if (!res.ok) throw new Error('Failed to fetch NGO details');
+    return res.json();
+  },
+  updateNgo: async (id: string, data: any) => {
+    const res = await fetch(`${API_BASE}/ngos/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update NGO details');
     return res.json();
   },
 

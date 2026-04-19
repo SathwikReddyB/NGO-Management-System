@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS ngo_management;
-USE ngo_management;
+-- NGO Management Schema
+
 
 CREATE TABLE IF NOT EXISTS ngos (
   id VARCHAR(255) PRIMARY KEY,

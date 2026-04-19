@@ -22,4 +22,17 @@ router.get('/:id', async (req, res) => {
   }
 });
 
+router.put('/:id', async (req, res) => {
+  try {
+    const { name, description, category, email, phone, address, website, image, fundingGoal } = req.body;
+    await pool.query(
+      'UPDATE ngos SET name = ?, description = ?, category = ?, email = ?, phone = ?, address = ?, website = ?, image = ?, fundingGoal = ? WHERE id = ?',
+      [name, description, category, email, phone, address, website, image, fundingGoal, req.params.id]
+    );
+    res.json({ message: 'NGO profile updated successfully' });
+  } catch (err) {
+    res.status(500).json({ error: 'Database error during NGO update' });
+  }
+});
+
 export default router;

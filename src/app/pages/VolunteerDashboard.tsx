@@ -106,8 +106,13 @@ export function VolunteerDashboard() {
               <span className="text-2xl font-bold text-gray-900">NGO Connect</span>
             </Link>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Welcome, <span className="font-semibold">{candidate.name}</span></span>
-              <Button variant="outline" onClick={handleLogout}>
+              <span className="text-sm text-gray-600 hidden md:inline">Welcome, <span className="font-semibold">{candidate.name}</span></span>
+              <Link to="/ngos">
+                <Button variant="default" size="sm">
+                  Browse NGOs
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>

@@ -151,7 +151,19 @@ export function NgoDetail() {
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
             {/* NGO Header */}
-            <Card>
+            <Card className="overflow-hidden">
+              {ngo.image && (
+                <div className="w-full h-64 overflow-hidden bg-gray-100">
+                  <img 
+                    src={ngo.image} 
+                    alt={ngo.name} 
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).style.display = 'none';
+                    }}
+                  />
+                </div>
+              )}
               <CardHeader>
                 <div className="flex items-start justify-between mb-2">
                   <Badge variant="secondary" className="text-base px-3 py-1">

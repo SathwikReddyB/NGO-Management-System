@@ -157,8 +157,18 @@ export function NgoDashboard() {
               <span className="text-2xl font-bold text-gray-900">NGO Connect</span>
             </Link>
             <div className="flex items-center gap-4">
-              <span className="text-sm text-gray-600">Welcome, <span className="font-semibold">{ngo.name}</span></span>
-              <Button variant="outline" onClick={handleLogout}>
+              <span className="text-sm text-gray-600 hidden md:inline">Welcome, <span className="font-semibold">{ngo.name}</span></span>
+              <Link to="/ngos">
+                <Button variant="ghost" size="sm">
+                  Browse NGOs
+                </Button>
+              </Link>
+              <Link to={`/ngo/${ngo.id}`}>
+                <Button variant="default" size="sm">
+                  View Public Profile
+                </Button>
+              </Link>
+              <Button variant="outline" size="sm" onClick={handleLogout}>
                 <LogOut className="w-4 h-4 mr-2" />
                 Logout
               </Button>
@@ -240,9 +250,8 @@ export function NgoDashboard() {
             <TabsTrigger value="slots">Time Slots</TabsTrigger>
             <TabsTrigger value="donations">Donations</TabsTrigger>
             <TabsTrigger value="bookings">Volunteer Bookings</TabsTrigger>
+            <TabsTrigger value="profile">Profile Settings</TabsTrigger>
           </TabsList>
-
-          {/* Time Slots Tab */}
           <TabsContent value="slots" className="space-y-4">
             <div className="flex justify-between items-center">
               <div>
@@ -441,6 +450,130 @@ export function NgoDashboard() {
                 ) : (
                   <p className="text-center text-gray-600 py-8">No volunteer bookings yet</p>
                 )}
+              </CardContent>
+            </Card>
+          </TabsContent>
+          {/* Profile Settings Tab */}
+          <TabsContent value="profile" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Organization Profile</CardTitle>
+                <CardDescription>Update your organization details and profile image</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form 
+                  onSubmit={async (e) => {
+                    e.preventDefault();
+                    if (!ngoId) return;
+                    try {
+                      await api.updateNgo(ngoId, {
+                        ...ngo,
+                        fundingGoal: parseInt(ngo.fundingGoal) || 0
+                      });
+                      toast.success('Profile updated successfully');
+                      loadData(ngoId);
+                    } catch (err) {
+                      toast.error('Failed to update profile');
+                    }
+                  }} 
+                  className="space-y-4"
+                >
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-name">Organization Name</Label>
+                      <Input
+                        id="profile-name"
+                        value={ngo.name}
+                        onChange={(e) => setNgo({ ...ngo, name: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-category">Category</Label>
+                      <Input
+                        id="profile-category"
+                        value={ngo.category}
+                        onChange={(e) => setNgo({ ...ngo, category: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="profile-description">Description</Label>
+                    <Textarea
+                      id="profile-description"
+                      value={ngo.description}
+                      onChange={(e) => setNgo({ ...ngo, description: e.target.value })}
+                      rows={4}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-email">Email</Label>
+                      <Input
+                        id="profile-email"
+                        type="email"
+                        value={ngo.email}
+                        onChange={(e) => setNgo({ ...ngo, email: e.target.value })}
+                        required
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-phone">Phone</Label>
+                      <Input
+                        id="profile-phone"
+                        value={ngo.phone}
+                        onChange={(e) => setNgo({ ...ngo, phone: e.target.value })}
+                        required
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="profile-address">Address</Label>
+                    <Input
+                      id="profile-address"
+                      value={ngo.address}
+                      onChange={(e) => setNgo({ ...ngo, address: e.target.value })}
+                      required
+                    />
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-website">Website (Optional)</Label>
+                      <Input
+                        id="profile-website"
+                        value={ngo.website || ''}
+                        onChange={(e) => setNgo({ ...ngo, website: e.target.value })}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-image">Profile Image URL (Optional)</Label>
+                      <Input
+                        id="profile-image"
+                        value={ngo.image || ''}
+                        onChange={(e) => setNgo({ ...ngo, image: e.target.value })}
+                        placeholder="https://example.com/logo.png"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="profile-goal">Annual Funding Goal (₹)</Label>
+                    <Input
+                      id="profile-goal"
+                      type="number"
+                      value={ngo.fundingGoal}
+                      onChange={(e) => setNgo({ ...ngo, fundingGoal: e.target.value })}
+                    />
+                  </div>
+
+                  <Button type="submit" className="w-full">Save Profile Changes</Button>
+                </form>
               </CardContent>
             </Card>
           </TabsContent>
