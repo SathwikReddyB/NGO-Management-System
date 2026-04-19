@@ -1,0 +1,64 @@
+CREATE DATABASE IF NOT EXISTS ngo_management;
+USE ngo_management;
+
+CREATE TABLE IF NOT EXISTS ngos (
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  category VARCHAR(100),
+  email VARCHAR(255) UNIQUE NOT NULL,
+  phone VARCHAR(50),
+  address VARCHAR(255),
+  website VARCHAR(255),
+  image VARCHAR(255),
+  volunteers INT DEFAULT 0,
+  fundingGoal INT DEFAULT 0,
+  currentFunding INT DEFAULT 0,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS candidates (
+  id VARCHAR(255) PRIMARY KEY,
+  name VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  phone VARCHAR(50),
+  skills JSON,
+  availability TEXT,
+  password VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS time_slots (
+  id VARCHAR(255) PRIMARY KEY,
+  ngoId VARCHAR(255) NOT NULL,
+  date DATE,
+  startTime TIME,
+  endTime TIME,
+  capacity INT DEFAULT 0,
+  booked INT DEFAULT 0,
+  description TEXT,
+  FOREIGN KEY (ngoId) REFERENCES ngos(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS bookings (
+  id VARCHAR(255) PRIMARY KEY,
+  candidateId VARCHAR(255) NOT NULL,
+  slotId VARCHAR(255) NOT NULL,
+  ngoId VARCHAR(255) NOT NULL,
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (candidateId) REFERENCES candidates(id) ON DELETE CASCADE,
+  FOREIGN KEY (slotId) REFERENCES time_slots(id) ON DELETE CASCADE,
+  FOREIGN KEY (ngoId) REFERENCES ngos(id) ON DELETE CASCADE
+);
+
+CREATE TABLE IF NOT EXISTS enrollments (
+  id VARCHAR(255) PRIMARY KEY,
+  candidateId VARCHAR(255),
+  ngoId VARCHAR(255) NOT NULL,
+  serviceType VARCHAR(50),
+  amount INT,
+  date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  FOREIGN KEY (candidateId) REFERENCES candidates(id) ON DELETE CASCADE,
+  FOREIGN KEY (ngoId) REFERENCES ngos(id) ON DELETE CASCADE
+);
