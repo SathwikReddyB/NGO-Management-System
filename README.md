@@ -123,11 +123,11 @@ This project integrates a responsive React frontend (using Vite) with a robust N
 
 Follow these steps to deploy your application for free.
 
-### 1. Database Setup (Aiven)
-1.  Sign up at [Aiven.io](https://aiven.io/) (No credit card needed).
-2.  Create a **Free MySQL** service.
-3.  Once running, copy the **Service URI** or the individual connection details.
-4.  Use a tool like MySQL Workbench or the Aiven Console to run the `backend/init.sql` script to set up your tables.
+### 1. Database Setup (Railway)
+1.  Sign up at [Railway.app](https://railway.app/).
+2.  Create a new project and add a **MySQL** database.
+3.  Once the database is created, you can find your connection details in the **Variables** tab (look for `MYSQLHOST`, `MYSQLUSER`, etc.).
+4.  Use the **Data** tab in Railway to run the `backend/init.sql` script and set up your tables.
 
 ### 2. Backend Deployment (Render)
 1.  Push your code to a **GitHub repository**.
@@ -138,12 +138,8 @@ Follow these steps to deploy your application for free.
     - **Build Command**: `npm install`
     - **Start Command**: `node server.js`
 5.  **Environment Variables**:
-    - `DB_HOST`: (From Aiven)
-    - `DB_USER`: (From Aiven)
-    - `DB_PASSWORD`: (From Aiven)
-    - `DB_NAME`: (From Aiven)
-    - `DB_PORT`: (From Aiven, usually 3306 or similar)
-    - `DB_SSL`: `true`
+    - Copy all the `MYSQL*` variables from Railway into Render's Environment Variables.
+    - `DB_SSL`: `true` (if required)
     - `JWT_SECRET`: (Your choice of a long secret string)
     - `FRONTEND_URL`: `https://your-app.vercel.app` (Add this *after* deploying the frontend)
 
